@@ -23,3 +23,16 @@ services:
     env_file:
       - tz_file
     restart: always
+
+  db:
+    image: ${MARIADB_IMAGE_NAME}:${MARIADB_IMAGE_VERSION}
+    container_name: db
+    volumes:
+      - datadir:/var/lib/mysql
+    environment:
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
+      - MARIADB_DATABASE=${MARIADB_DATABASE}
+    restart: always
+
+volumes:
+  datadir:
