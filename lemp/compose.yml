@@ -20,6 +20,6 @@ services:
     container_name: php
     volumes:
       - ./site:/var/www/html
-    environment:
-      TZ: Europe/Paris
+    env_file:
+      - tz_file
     restart: always
