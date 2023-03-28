@@ -7,8 +7,8 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ./conf-nginx:/etc/nginx/conf.d
-      - ./site:/usr/share/nginx/html
+      - conf-nginx:/etc/nginx/conf.d
+      - site:/usr/share/nginx/html
     environment:
       TZ: Europe/Paris
     depends_on:
@@ -19,7 +19,7 @@ services:
     image: ${PHP_IMAGE_NAME}:${PHP_IMAGE_VERSION}
     container_name: php
     volumes:
-      - ./site:/var/www/html
+      - site:/var/www/html
     env_file:
       - tz_file
     restart: always
@@ -36,3 +36,15 @@ services:
 
 volumes:
   datadir:
+  
+  conf-nginx:
+    driver_opts:
+      type: nfs
+      o: addr=${NFS_SERVER_ADDR},vers=4.2
+      device: ":/conf-nginx"
+
+  site:
+    driver_opts:
+      type: nfs
+      o: addr=${NFS_SERVER_ADDR},vers=4.2
+      device: ":/site"
